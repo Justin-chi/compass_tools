@@ -23,7 +23,7 @@ fi
 # Upload the image to the Image service using the QCOW2 disk format, bare container format:
 if [[ ! $(glance image-list | grep cirros) ]]; then
     glance image-create --name "cirros" \
-        --file cirros-0.3.4-x86_64-disk.img  \
+        --file cirros-0.3.3-x86_64-disk.img  \
         --disk-format qcow2 --container-format bare
 fi
 
