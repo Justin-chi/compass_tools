@@ -1,8 +1,12 @@
 #!/bin/bash
 ##############################################################################
-# File Name: "launch_instance.sh"
-# Author:    "LiYuenan"
-# mail:      "liyuenan@huawei.com"
+# File Name:   launch_instance.sh
+# Revision:    2.0
+# Date:        2017-02-08
+# Author:      Yuenan Li
+# Email:       liyuenan93@icloud.com
+# Blog:        liyuenan.com
+# Description: Launch some instances
 ##############################################################################
 
 # Run this script in a controller node.

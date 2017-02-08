@@ -1,8 +1,12 @@
 #!/bin/bash
 ##############################################################################
-# File Name: "delete_expansion_host.sh"
-# Author:    "LiYuenan"
-# mail:      "liyuenan@huawei.com"
+# File Name:   delete_expansion_host.sh
+# Revision:    1.0
+# Date:        2017-02-08
+# Author:      Yuenan Li
+# Email:       liyuenan93@icloud.com
+# Blog:        liyuenan.com
+# Description: Delete compute node
 ##############################################################################
 
 # This script used for delet a host when expanse failed.

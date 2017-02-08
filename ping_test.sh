@@ -1,8 +1,12 @@
 #!/bin/bash
 ##############################################################################
-# File Name: "ping_test.sh"
-# Author:    "LiYuenan"
-# mail:      "liyuenan@huawei.com"
+# File Name:   ping_test.sh
+# Revision:    2.0
+# Date:        2017-02-08
+# Author:      Yuenan Li
+# Email:       liyuenan93@icloud.com
+# Blog:        liyuenan.com
+# Description: Test launch instance on openstack
 ##############################################################################
 
 # Run this script in a controller node.

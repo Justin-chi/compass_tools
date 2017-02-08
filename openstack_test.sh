@@ -1,8 +1,12 @@
 #!/bin/bash
 ##############################################################################
-# File Name: "openstack_test.sh"
-# Author:    "LiYuenan"
-# mail:      "liyuenan@huawei.com"
+# File Name:   openstack_test.sh
+# Revision:    2.0
+# Date:        2017-02-08
+# Author:      Yuenan Li
+# Email:       liyuenan93@icloud.com
+# Blog:        liyuenan.com
+# Description: Test openstack base function
 ##############################################################################
 
 set -x
