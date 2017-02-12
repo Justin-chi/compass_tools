@@ -1,7 +1,7 @@
 #!/bin/bash
 ##############################################################################
 # File Name:   openstack_test.sh
-# Revision:    2.0
+# Version:     2.0
 # Date:        2017-02-08
 # Author:      Maxwell Li
 # Email:       liyuenan93@icloud.com

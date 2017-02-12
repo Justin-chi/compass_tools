@@ -1,7 +1,7 @@
 #!/bin/bash
 ##############################################################################
 # File Name:   launch_instance.sh
-# Revision:    2.1
+# Version:     2.1
 # Date:        2017-02-08
 # Author:      Maxwell Li
 # Email:       liyuenan93@icloud.com
