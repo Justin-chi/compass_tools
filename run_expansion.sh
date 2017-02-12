@@ -3,10 +3,11 @@
 # File Name:   run_expansion.sh
 # Revision:    2.0
 # Date:        2017-02-08
-# Author:      Yuenan Li
+# Author:      Maxwell Li
 # Email:       liyuenan93@icloud.com
 # Blog:        liyuenan.com
-# Description: expand compute node by compass4nfv
+# Description: Expand compute node by compass4nfv
+# Note:        First version
 ##############################################################################
 
 CODE_NAME=compass4nfv

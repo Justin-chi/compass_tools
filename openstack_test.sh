@@ -3,14 +3,14 @@
 # File Name:   openstack_test.sh
 # Revision:    2.0
 # Date:        2017-02-08
-# Author:      Yuenan Li
+# Author:      Maxwell Li
 # Email:       liyuenan93@icloud.com
 # Blog:        liyuenan.com
 # Description: Test openstack base function
+# Note:        First version
 ##############################################################################
 
-set -x
-set -e
+set -xe
 
 # source the admin credentials to gain access to admin-only CLI commands:
 source /opt/admin-openrc.sh
@@ -74,7 +74,6 @@ rm /tmp/cirros.img
 # List aodh alarm
 aodh alarm list
 
-set +x
-set +e
+set +xe
 
 echo "===== Test Pass! ====="

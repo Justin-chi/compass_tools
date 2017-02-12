@@ -3,10 +3,11 @@
 # File Name:   load_iso_compass4nfv.sh
 # Revision:    1.0
 # Date:        2017-02-08
-# Author:      Yuenan Li
+# Author:      Maxwell Li
 # Email:       liyuenan93@icloud.com
 # Blog:        liyuenan.com
 # Description: Download newest compass iso
+# Note:        First version
 ##############################################################################
 
 wget http://artifacts.opnfv.org/compass4nfv/latest.properties

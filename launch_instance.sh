@@ -1,17 +1,21 @@
 #!/bin/bash
 ##############################################################################
 # File Name:   launch_instance.sh
-# Revision:    2.0
+# Revision:    2.1
 # Date:        2017-02-08
-# Author:      Yuenan Li
+# Author:      Maxwell Li
 # Email:       liyuenan93@icloud.com
 # Blog:        liyuenan.com
 # Description: Launch some instances
+# Note:        Change test image name and delete flavor id
+##############################################################################
+# Version:     2.0
+# Date:        2017-02-08
+# Note:        First Verison
 ##############################################################################
 
 # Run this script in a controller node.
-set -x
-set -e
+set -xe
 demo_number=3
 
 # source the admin credentials to gain access to admin-only CLI commands:
@@ -23,8 +27,8 @@ if [[ ! -e cirros-0.3.3-x86_64-disk.img ]]; then
 fi
 
 # Upload the image to the Image service using the QCOW2 disk format, bare container format:
-if [[ ! $(glance image-list | grep cirros) ]]; then
-    glance image-create --name "cirros" \
+if [[ ! $(glance image-list | grep cirros-test) ]]; then
+    glance image-create --name "cirros-test" \
         --file cirros-0.3.4-x86_64-disk.img  \
         --disk-format qcow2 --container-format bare
 fi
@@ -76,7 +80,7 @@ do
     if [[ ! $(nova list | grep "demo$i") ]]; then
         nova boot \
             --flavor m1.nano \
-            --image cirros \
+            --image cirros-test \
             --nic net-id=$(neutron net-list | grep demo-net | awk '{print $2}') \
             --security-group default \
             "demo$i"
@@ -89,8 +93,7 @@ do
     fi
 done
 
-set +x
-set +e
+set +xe
 
 # List the instance
 nova list
@@ -106,4 +109,3 @@ do
 done
 echo "| NOTE: DEFAULT PASSWORD is cubswin:)  |"
 echo "+--------------------------------------+"
-

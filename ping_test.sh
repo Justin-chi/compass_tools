@@ -1,12 +1,17 @@
 #!/bin/bash
 ##############################################################################
 # File Name:   ping_test.sh
-# Revision:    2.0
-# Date:        2017-02-08
-# Author:      Yuenan Li
+# Version:     2.1
+# Date:        2017-02-12
+# Author:      Maxwell Li
 # Email:       liyuenan93@icloud.com
 # Blog:        liyuenan.com
 # Description: Test launch instance on openstack
+# Note:        Change test image name and delete flavor id
+##############################################################################
+# Version:     2.0
+# Date:        2017-02-08
+# Note:        First Verison
 ##############################################################################
 
 # Run this script in a controller node.
@@ -21,8 +26,8 @@ if [[ ! -e cirros-0.3.3-x86_64-disk.img ]]; then
 fi
 
 # Upload the image to the Image service using the QCOW2 disk format, bare container format:
-if [[ ! $(glance image-list | grep cirros) ]]; then
-    glance image-create --name "cirros" \
+if [[ ! $(glance image-list | grep cirros-test) ]]; then
+    glance image-create --name "cirros-test" \
         --file cirros-0.3.3-x86_64-disk.img  \
         --disk-format qcow2 --container-format bare
 fi
@@ -52,7 +57,7 @@ fi
 
 # Create m1.test flavor
 if [[ ! $(openstack flavor list | grep m1.test) ]]; then
-    openstack flavor create --id 100 --vcpus 1 --ram 256 --disk 1 m1.test
+    openstack flavor create --vcpus 1 --ram 256 --disk 1 m1.test
 fi
 
 # Generate and add a key pair
@@ -62,7 +67,7 @@ fi
 
 # Launch the instance:
 if [[ ! $(nova list | grep "ping1") ]]; then
-    nova boot --flavor m1.test --image cirros \
+    nova boot --flavor m1.test --image cirros-test \
         --nic net-id=$(neutron net-list | grep demo-net | awk '{print $2}') \
         --security-group default --key-name testkey ping1
     sleep 10
@@ -73,7 +78,7 @@ if [[ ! $(nova list | grep "ping1") ]]; then
 fi
 
 if [[ ! $(nova list | grep "ping2") ]]; then
-    nova boot --flavor m1.test --image cirros \
+    nova boot --flavor m1.test --image cirros-test \
         --nic net-id=$(neutron net-list | grep demo-net | awk '{print $2}') \
         --security-group default --key-name testkey ping2
     sleep 10
@@ -86,11 +91,6 @@ fi
 # Ping Test
 ssh cirros@$floating_ip1 ping -c 4 $floating_ip2
 ssh cirros@$floating_ip2 ping -c 4 $floating_ip1
-
-# Clean the openstack
-#openstack keypair delete testkey
-#nova delete ping1
-#nova delete ping2
 
 set +ex
 
