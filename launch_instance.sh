@@ -1,14 +1,17 @@
 #!/bin/bash
 ##############################################################################
 # File Name:   launch_instance.sh
-# Version:     2.1
-# Date:        2017-02-08
+# Version:     2.2
+# Date:        2017-02-16
 # Author:      Maxwell Li
 # Email:       liyuenan93@icloud.com
 # Blog:        liyuenan.com
 # Description: Launch some instances
-# Note:        Change test image name and delete flavor id
+# Note:        Use test flavor rather than nano
 ##############################################################################
+# Version:     2.1
+# Date:        2017-02-12
+# Note:        Change test image name and delete flavor id
 # Version:     2.0
 # Date:        2017-02-08
 # Note:        First Verison
@@ -16,7 +19,7 @@
 
 # Run this script in a controller node.
 set -xe
-demo_number=3
+demo_number=2
 
 # source the admin credentials to gain access to admin-only CLI commands:
 source /opt/admin-openrc.sh
@@ -71,7 +74,7 @@ neutron router-list
 
 # Create m1.nano flavor
 if [[ ! $(openstack flavor list | grep m1.nano) ]]; then
-    openstack flavor create --id 0 --vcpus 1 --ram 64 --disk 1 m1.nano
+    openstack flavor create --vcpus 1 --ram 64 --disk 1 m1.test
 fi
 
 # Launch the instance:
@@ -79,7 +82,7 @@ for i in $(seq 1 $demo_number)
 do
     if [[ ! $(nova list | grep "demo$i") ]]; then
         nova boot \
-            --flavor m1.nano \
+            --flavor m1.test \
             --image cirros-test \
             --nic net-id=$(neutron net-list | grep demo-net | awk '{print $2}') \
             --security-group default \
