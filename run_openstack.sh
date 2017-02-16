@@ -1,12 +1,16 @@
 #!/bin/bash
 ##############################################################################
 # File Name:   run_openstack.sh
-# Version:     2.0
-# Date:        2017-02-08
+# Version:     2.1
+# Date:        2017-02-16
 # Author:      Maxwell Li
 # Email:       liyuenan93@icloud.com
 # Blog:        liyuenan.com
 # Description: Deploy openstack by compass4nfv
+# Note:        Add INSTALL_NIC for baremetal deploy
+##############################################################################
+# Version:     2.0
+# Date:        2017-02-08
 # Note:        First version
 ##############################################################################
 
@@ -24,6 +28,8 @@ export DHA=$WORK_DIR/scenario/os-nosdn-nofeature-ha.yml
 export OS_VERSION=xenial
 #export OS_VERSION=centos7
 export OPENSTACK_VERSION=newton
+
+#export INSTALL_NIC=eth1
 
 ######################### Reconvery
 # After restart jumpserver, set these variables and run deploy.sh again.
