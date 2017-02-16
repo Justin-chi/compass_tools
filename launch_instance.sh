@@ -2,13 +2,16 @@
 ##############################################################################
 # File Name:   launch_instance.sh
 # Version:     2.2
-# Date:        2017-02-16
+# Date:        2017-02-17
 # Author:      Maxwell Li
 # Email:       liyuenan93@icloud.com
 # Blog:        liyuenan.com
 # Description: Launch some instances
-# Note:        Use test flavor rather than nano
+# Note:        The number of instance need to input
 ##############################################################################
+# Version:     2.2
+# Date:        2017-02-16
+# Note:        Use test flavor rather than nano
 # Version:     2.1
 # Date:        2017-02-12
 # Note:        Change test image name and delete flavor id
@@ -18,8 +21,13 @@
 ##############################################################################
 
 # Run this script in a controller node.
+if [ ! -z "$1" ]; then
+    demo_number=$1
+else
+    echo "Please input the number of instance you need launch."
+    exit 1
+fi
 set -xe
-demo_number=2
 
 # source the admin credentials to gain access to admin-only CLI commands:
 source /opt/admin-openrc.sh
@@ -32,7 +40,7 @@ fi
 # Upload the image to the Image service using the QCOW2 disk format, bare container format:
 if [[ ! $(glance image-list | grep cirros-test) ]]; then
     glance image-create --name "cirros-test" \
-        --file cirros-0.3.4-x86_64-disk.img  \
+        --file cirros-0.3.3-x86_64-disk.img  \
         --disk-format qcow2 --container-format bare
 fi
 
@@ -73,7 +81,7 @@ fi
 neutron router-list
 
 # Create m1.nano flavor
-if [[ ! $(openstack flavor list | grep m1.nano) ]]; then
+if [[ ! $(openstack flavor list | grep m1.test) ]]; then
     openstack flavor create --vcpus 1 --ram 64 --disk 1 m1.test
 fi
 
