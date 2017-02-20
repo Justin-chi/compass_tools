@@ -1,14 +1,17 @@
 #!/bin/bash
 ##############################################################################
 # File Name:   launch_instance.sh
-# Version:     2.2
-# Date:        2017-02-17
+# Version:     2.4
+# Date:        2017-02-20
 # Author:      Maxwell Li
 # Email:       liyuenan93@icloud.com
 # Blog:        liyuenan.com
 # Description: Launch some instances
-# Note:        The number of instance need to input
+# Note:        Add dns name server for subnet
 ##############################################################################
+# Version:     2.3
+# Date:        2017-02-17
+# Note:        The number of instance need to input
 # Version:     2.2
 # Date:        2017-02-16
 # Note:        Use test flavor rather than nano
@@ -63,7 +66,8 @@ if [[ ! $(neutron net-list | grep demo-net) ]]; then
     neutron net-create demo-net
 fi
 if [[ ! $(neutron subnet-list | grep demo-subnet) ]]; then
-    neutron subnet-create demo-net 10.10.10.0/24 --name demo-subnet --gateway 10.10.10.1
+    neutron subnet-create demo-net 10.10.10.0/24 --name demo-subnet \
+        --gateway 10.10.10.1 --dns-nameserver 8.8.8.8
 fi
 
 # List the net and subnet

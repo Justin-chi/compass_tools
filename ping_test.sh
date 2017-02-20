@@ -1,14 +1,17 @@
 #!/bin/bash
 ##############################################################################
 # File Name:   ping_test.sh
-# Version:     2.1
-# Date:        2017-02-12
+# Version:     2.2
+# Date:        2017-02-20
 # Author:      Maxwell Li
 # Email:       liyuenan93@icloud.com
 # Blog:        liyuenan.com
 # Description: Test launch instance on openstack
-# Note:        Change test image name and delete flavor id
+# Note:        Add dns name server for subnet
 ##############################################################################
+# Version:     2.1
+# Date:        2017-02-12
+# Note:        Change test image name and delete flavor id
 # Version:     2.0
 # Date:        2017-02-08
 # Note:        First Verison
@@ -45,7 +48,8 @@ if [[ ! $(neutron net-list | grep demo-net) ]]; then
     neutron net-create demo-net
 fi
 if [[ ! $(neutron subnet-list | grep demo-subnet) ]]; then
-    neutron subnet-create demo-net 10.10.10.0/24 --name demo-subnet --gateway 10.10.10.1
+    neutron subnet-create demo-net 10.10.10.0/24 --name demo-subnet \
+        --gateway 10.10.10.1 --dns-nameserver 8.8.8.8
 fi
 
 # Create the router, add the demo-net network subnet and set a gateway on the ext-net network on the router:
