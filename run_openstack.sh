@@ -1,14 +1,17 @@
 #!/bin/bash
 ##############################################################################
 # File Name:   run_openstack.sh
-# Version:     2.1
+# Version:     2.2
 # Date:        2017-02-16
 # Author:      Maxwell Li
 # Email:       liyuenan93@icloud.com
 # Blog:        liyuenan.com
 # Description: Deploy openstack by compass4nfv
-# Note:        Add INSTALL_NIC for baremetal deploy
+# Note:        Add offline deploy
 ##############################################################################
+# Version:     2.1
+# Date:        2017-02-16
+# Note:        Add INSTALL_NIC for baremetal deploy
 # Version:     2.0
 # Date:        2017-02-08
 # Note:        First version
@@ -19,6 +22,12 @@ WORK_DIR=$(cd $(dirname ${BASH_SOURCE:-$0});pwd)
 cd $WORK_DIR/$CODE_NAME
 
 ./build.sh
+
+# Deploy offline
+#mkdir -p /$WORK_DIR/$CODE_NAME/work/offline
+#curl --connect-timeout 10 -o /$WORK_DIR/$CODE_NAME/work/offline/jh_env_package.tar.gz \
+#    http://205.177.226.237:9999/jh_env_package.tar.gz
+#export JHPKG_URL=file://$WORK_DIR/$CODE_NAME/work/offline/jh_env_package.tar.gz
 
 export ISO_URL=file://$WORK_DIR/$CODE_NAME/work/building/compass.iso
 
@@ -31,17 +40,17 @@ export OPENSTACK_VERSION=newton
 
 #export INSTALL_NIC=eth1
 
-######################### Reconvery
+# Reconvery
 # After restart jumpserver, set these variables and run deploy.sh again.
 #export DEPLOY_RECOVERY="true"
 #export DEPLOY_FIRST_TIME="false"
 
-######################### Deploy Compass
+# Deploy Compass
 # If you only need to deploy compass, set this variable.
 #export DEPLOY_COMPASS="true"
 #export DEPLOY_FIRST_TIME="false"
 
-######################### Deploy Host
+# Deploy Host
 # If you only need to deploy host, set these variables.
 #export DEPLOY_HOST="true"
 #export DEPLOY_FIRST_TIME="false"
