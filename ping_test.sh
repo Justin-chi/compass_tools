@@ -94,6 +94,7 @@ fi
 
 # Ping Test
 ssh cirros@$floating_ip1 ping -c 4 $floating_ip2
+sleep 5
 ssh cirros@$floating_ip2 ping -c 4 $floating_ip1
 
 set +ex
