@@ -4,8 +4,8 @@
 # Version:     2.4
 # Date:        2017-02-20
 # Author:      Maxwell Li
-# Email:       liyuenan93@icloud.com
-# Blog:        liyuenan.com
+# Email:       liyuenan93@qq.com
+# Web:         maxwelli.com
 # Description: Launch some instances
 # Note:        Add dns name server for subnet
 ##############################################################################
@@ -20,7 +20,7 @@
 # Note:        Change test image name and delete flavor id
 # Version:     2.0
 # Date:        2017-02-08
-# Note:        First Verison
+# Note:        First verison
 ##############################################################################
 
 # Run this script in a controller node.

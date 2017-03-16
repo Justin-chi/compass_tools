@@ -4,8 +4,8 @@
 # Version:     1.0
 # Date:        2017-02-08
 # Author:      Maxwell Li
-# Email:       liyuenan93@icloud.com
-# Blog:        liyuenan.com
+# Email:       liyuenan93@qq.com
+# Web:         maxwelli.com
 # Description: Delete compute node
 # Note:        First version
 ##############################################################################

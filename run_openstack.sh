@@ -4,8 +4,8 @@
 # Version:     2.2
 # Date:        2017-02-16
 # Author:      Maxwell Li
-# Email:       liyuenan93@icloud.com
-# Blog:        liyuenan.com
+# Email:       liyuenan93@qq.com
+# Web:         maxwelli.com
 # Description: Deploy openstack by compass4nfv
 # Note:        Add offline deploy
 ##############################################################################
