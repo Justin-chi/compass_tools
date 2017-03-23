@@ -1,14 +1,16 @@
 #!/bin/bash
 ##############################################################################
 # File Name:   launch_instance.sh
-# Version:     2.4
+# Version:     2.5
 # Date:        2017-02-20
 # Author:      Maxwell Li
 # Email:       liyuenan93@qq.com
 # Web:         maxwelli.com
 # Description: Launch some instances
-# Note:        Add dns name server for subnet
+# Note:        Add key for instances
 ##############################################################################
+# Version:     2.4
+# Note:        Add dns name server for subnet
 # Version:     2.3
 # Date:        2017-02-17
 # Note:        The number of instance need to input
@@ -89,6 +91,11 @@ if [[ ! $(openstack flavor list | grep m1.test) ]]; then
     openstack flavor create --vcpus 1 --ram 64 --disk 1 m1.test
 fi
 
+# Generate and add a key pair
+if [[ ! $(openstack keypair list | grep testkey) ]]; then
+    openstack keypair create --public-key ~/.ssh/id_rsa.pub testkey
+fi
+
 # Launch the instance:
 for i in $(seq 1 $demo_number)
 do
@@ -98,6 +105,7 @@ do
             --image cirros-test \
             --nic net-id=$(neutron net-list | grep demo-net | awk '{print $2}') \
             --security-group default \
+            --key-name testkey \
             "demo$i"
         sleep 10
 
