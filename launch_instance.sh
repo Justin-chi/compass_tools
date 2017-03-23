@@ -2,7 +2,7 @@
 ##############################################################################
 # File Name:   launch_instance.sh
 # Version:     2.5
-# Date:        2017-02-20
+# Date:        2017-03-23
 # Author:      Maxwell Li
 # Email:       liyuenan93@qq.com
 # Web:         maxwelli.com
@@ -10,6 +10,7 @@
 # Note:        Add key for instances
 ##############################################################################
 # Version:     2.4
+# Date:        2017-02-20
 # Note:        Add dns name server for subnet
 # Version:     2.3
 # Date:        2017-02-17
