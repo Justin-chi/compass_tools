@@ -1,14 +1,17 @@
 #!/bin/bash
 ##############################################################################
 # File Name:   ping_test.sh
-# Version:     2.2
-# Date:        2017-02-20
+# Version:     2.3
+# Date:        2017-05-09
 # Author:      Maxwell Li
 # Email:       liyuenan93@qq.com
 # Web:         maxwelli.com
 # Description: Test launch instance on openstack
-# Note:        Add dns name server for subnet
+# Note:        Update to openstack client
 ##############################################################################
+# Version:     2.2
+# Date:        2017-02-20
+# Note:        Add dns name server for subnet
 # Version:     2.1
 # Date:        2017-02-12
 # Note:        Change test image name and delete flavor id
@@ -29,67 +32,69 @@ if [[ ! -e cirros-0.3.3-x86_64-disk.img ]]; then
 fi
 
 # Upload the image to the Image service using the QCOW2 disk format, bare container format:
-if [[ ! $(glance image-list | grep cirros-test) ]]; then
-    glance image-create --name "cirros-test" \
-        --file cirros-0.3.3-x86_64-disk.img  \
-        --disk-format qcow2 --container-format bare
+if [[ ! $(openstack image list | grep cirros) ]]; then
+    openstack image create --file cirros-0.3.3-x86_64-disk.img  \
+        --disk-format qcow2 --container-format bare cirros
 fi
 
 # Add rules to the default security group:
-if [[ ! $(nova secgroup-list-rules default | grep icmp) ]]; then
-    nova secgroup-add-rule default icmp -1 -1 0.0.0.0/0
+if [[ ! $(openstack security group rule list | grep icmp) ]]; then
+    openstack security group rule create --proto icmp default
 fi
-if [[ ! $(nova secgroup-list-rules default | grep tcp) ]]; then
-    nova secgroup-add-rule default tcp 22 22 0.0.0.0/0
+if [[ ! $(openstack security group rule list | grep tcp) ]]; then
+    openstack security group rule create --proto tcp --dst-port 22 default
 fi
 
 # Create the net and a subnet on the network:
-if [[ ! $(neutron net-list | grep demo-net) ]]; then
-    neutron net-create demo-net
+if [[ ! $(openstack network list | grep demo-net) ]]; then
+    openstack network create demo-net
 fi
-if [[ ! $(neutron subnet-list | grep demo-subnet) ]]; then
-    neutron subnet-create demo-net 10.10.10.0/24 --name demo-subnet \
-        --gateway 10.10.10.1 --dns-nameserver 8.8.8.8
+if [[ ! $(openstack subnet list | grep demo-subnet) ]]; then
+    openstack subnet create --network demo-net --subnet-range 10.10.10.0/24 \
+        --gateway 10.10.10.1 --dns-nameserver 8.8.8.8 demo-subnet
 fi
 
 # Create the router, add the demo-net network subnet and set a gateway on the ext-net network on the router:
-if [[ ! $(neutron router-list | grep demo-router) ]]; then
-    neutron router-create demo-router
+if [[ ! $(openstack router list| grep demo-router) ]]; then
+    openstack router create demo-router
     neutron router-interface-add demo-router demo-subnet
     neutron router-gateway-set demo-router ext-net
 fi
 
-# Create m1.test flavor
-if [[ ! $(openstack flavor list | grep m1.test) ]]; then
-    openstack flavor create --vcpus 1 --ram 256 --disk 1 m1.test
-fi
-
 # Generate and add a key pair
-if [[ ! $(openstack keypair list | grep testkey) ]]; then
-    openstack keypair create --public-key ~/.ssh/id_rsa.pub testkey
+if [[ ! $(openstack keypair list | grep mykey) ]]; then
+    openstack keypair create --public-key ~/.ssh/id_rsa.pub mykey
 fi
 
 # Launch the instance:
-if [[ ! $(nova list | grep "ping1") ]]; then
-    nova boot --flavor m1.test --image cirros-test \
+if [[ ! $(openstack server list | grep "ping1") ]]; then
+    openstack server create\
+        --flavor m1.nano \
+        --image $(openstack image list | grep cirros | awk '{print $2}') \
         --nic net-id=$(neutron net-list | grep demo-net | awk '{print $2}') \
-        --security-group default --key-name testkey ping1
+        --security-group default \
+        --key-name mykey \
+        ping1
     sleep 10
     # Create a floating IP address and associate it with the instance:
-    floating_ip1=$(neutron floatingip-create ext-net \
-                | grep floating_ip_address | awk '{print $4}')
-    nova floating-ip-associate ping1 $floating_ip1
+    floating_ip1=$(openstack floating ip create ext-net \
+                 | grep floating_ip_address | awk '{print $4}')
+    openstack server add floating ip ping1 $floating_ip
 fi
 
-if [[ ! $(nova list | grep "ping2") ]]; then
-    nova boot --flavor m1.test --image cirros-test \
+if [[ ! $(openstack server list | grep "ping2") ]]; then
+    openstack server create\
+        --flavor m1.nano \
+        --image $(openstack image list | grep cirros | awk '{print $2}') \
         --nic net-id=$(neutron net-list | grep demo-net | awk '{print $2}') \
-        --security-group default --key-name testkey ping2
+        --security-group default \
+        --key-name mykey \
+        ping2
     sleep 10
     # Create a floating IP address and associate it with the instance:
-    floating_ip2=$(neutron floatingip-create ext-net \
-                | grep floating_ip_address | awk '{print $4}')
-    nova floating-ip-associate ping2 $floating_ip2
+    floating_ip2=$(openstack floating ip create ext-net \
+                 | grep floating_ip_address | awk '{print $4}')
+    openstack server add floating ip ping2 $floating_ip
 fi
 
 # Ping Test
