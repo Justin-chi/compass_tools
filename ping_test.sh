@@ -79,7 +79,7 @@ if [[ ! $(openstack server list | grep "ping1") ]]; then
     # Create a floating IP address and associate it with the instance:
     floating_ip1=$(openstack floating ip create ext-net \
                  | grep floating_ip_address | awk '{print $4}')
-    openstack server add floating ip ping1 $floating_ip
+    openstack server add floating ip ping1 $floating_ip1
 fi
 
 if [[ ! $(openstack server list | grep "ping2") ]]; then
@@ -94,7 +94,7 @@ if [[ ! $(openstack server list | grep "ping2") ]]; then
     # Create a floating IP address and associate it with the instance:
     floating_ip2=$(openstack floating ip create ext-net \
                  | grep floating_ip_address | awk '{print $4}')
-    openstack server add floating ip ping2 $floating_ip
+    openstack server add floating ip ping2 $floating_ip2
 fi
 
 # Ping Test
