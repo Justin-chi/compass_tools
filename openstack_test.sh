@@ -22,7 +22,7 @@ openstack token issue
 ########## Test Glance ##########
 # Download the source image:
 if [[ ! -e cirros-0.3.3-x86_64-disk.img ]]; then
-        wget 10.1.0.12/image/cirros-0.3.3-x86_64-disk.img
+    wget 10.1.0.12/image/cirros-0.3.3-x86_64-disk.img
 fi
 
 # Upload the image to the Image service using the QCOW2 disk format, bare container format:
